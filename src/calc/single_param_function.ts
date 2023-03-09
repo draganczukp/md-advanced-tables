@@ -33,6 +33,12 @@ export class SingleParamFunctionCall implements ValueProvider {
       case 'mean':
         this.op = mean;
         break;
+      case 'ceil':
+        break;
+      case 'floor':
+        break;
+      case 'round':
+        break;
       default:
         throw Error('Unknown single param function call: ' + functionName);
     }
@@ -93,3 +99,39 @@ const mean = (value: Value): Value => {
 
   return new Value([[(total / count).toString()]]);
 };
+
+const ceil = (value: Value): Value => {
+  return value.val.reduce<number>(
+    (runningTotal, currentRow): number =>{
+      return currentRow.reduce<number>((rowTotal, currentCell): number => {
+        const v = parseFloat(currentCell);
+        if(isNaN(v))
+          return 0;
+        return Math.ceil(v);
+      })
+    });
+}
+
+const floor = (value: Value): Value => {
+  return value.val.reduce<number>(
+    (runningTotal, currentRow): number =>{
+      return currentRow.reduce<number>((rowTotal, currentCell): number => {
+        const v = parseFloat(currentCell);
+        if(isNaN(v))
+          return 0;
+        return Math.floor(v);
+      })
+    });
+}
+
+const round = (value: Value): Value => {
+  return value.val.reduce<number>(
+    (runningTotal, currentRow): number =>{
+      return currentRow.reduce<number>((rowTotal, currentCell): number => {
+        const v = parseFloat(currentCell);
+        if(isNaN(v))
+          return 0;
+        return Math.round(v);
+      })
+    });
+}
